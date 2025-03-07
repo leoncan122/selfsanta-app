@@ -1,0 +1,22 @@
+# Node.js / React / Angular
+node_modules/
+dist/
+*.env
+.env.*
+
+
+# Python / Django / Flask
+__pycache__/
+venv/
+venv/
+
+*.pyc
+
+# Docker
+docker/db_data/
+*.log
+
+# Configuración IDEs
+.vscode/
+.idea/
+.DS_Store

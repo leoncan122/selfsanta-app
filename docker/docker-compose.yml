@@ -1,0 +1,64 @@
+version: '3'
+
+networks:
+  front-net:
+    driver: bridge
+  back-net:
+    driver: bridge
+
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    networks:
+      - front-net
+      - back-net
+    depends_on:
+      - web
+      - api
+    volumes:
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ../react-web/dist:/usr/share/nginx/html
+  web:
+    build:
+      context: ..
+      dockerfile: ./docker/web-Dockerfile
+    networks:
+      - front-net
+      - back-net
+    depends_on:
+      - api
+
+  api:
+    build: 
+      context: ..
+      dockerfile: ./docker/backend-Dockerfile
+    networks:
+      - back-net
+      - front-net
+    depends_on:
+      - mongo
+    ports:
+      - "8000:8000"  
+    expose:
+      - "8000"
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo-db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: example
+      MONGO_INITDB_ROOT_PASSWORD: examplepassword
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - back-net
+    expose:
+      - "27017"  # Solo accesible dentro de la red de Docker
+
+volumes:
+  mongo-data:
+    driver: local

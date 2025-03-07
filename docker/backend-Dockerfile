@@ -1,0 +1,21 @@
+# Usamos una imagen base de Python
+FROM python:3.9-slim
+
+# Establecemos el directorio de trabajo en el contenedor
+WORKDIR /app
+
+# Copiamos el archivo de dependencias (requirements.txt) al contenedor
+COPY ./fastapi-backend/requirements.txt .
+
+# Instalamos las dependencias de FastAPI
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copiamos el código fuente de la aplicación FastAPI
+COPY ../fastapi-backend/ ./
+
+# Exponemos el puerto que usará FastAPI (por defecto 8000)
+EXPOSE 8000
+
+# Comando para ejecutar la aplicación con Uvicorn
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
