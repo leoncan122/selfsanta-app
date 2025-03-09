@@ -1,7 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException
 from loguru import logger
 from fastapi.responses import JSONResponse
-from app.users_mgt.models.requests import GiftReq
+
+from app.users_mgt.models.requests.gifts import GiftReq
+
 router = APIRouter()
 
 @router.get("/gifts/{gift_id}")
@@ -21,7 +23,7 @@ async def add_gift(gift: GiftReq):
 async def update_gift(gift_id: str, gift: GiftReq):
     try:
         #actualizar el regalo
-        return { msg: f"Regalo {gift_id} actualizado correctamente" }
+        return { "msg": f"Regalo {gift_id} actualizado correctamente" }
     except Exception as e:
         logger.error(f"Error al actualizar el regalo: {e}")
         return JSONResponse(status_code=500, content={"message": "Internal server error"})
