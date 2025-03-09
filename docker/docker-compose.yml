@@ -11,6 +11,11 @@ services:
   nginx:
     image: nginx:alpine
     container_name: nginx
+    env_file:
+      - path: ../.env.local
+        required: true
+      - path: ../.env.production
+        required: false
     ports:
       - "80:80"
     networks:
