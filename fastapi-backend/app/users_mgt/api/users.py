@@ -1,5 +1,5 @@
 
-from fastapi import APIRouter, Depends, HTTPException, Exception
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from loguru import logger
 from fastapi.responses import JSONResponse

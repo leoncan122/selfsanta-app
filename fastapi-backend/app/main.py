@@ -39,6 +39,6 @@ async def log_middleware(request: str, call_next):
 app.mount("/api/users", users_main.app)
 
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
