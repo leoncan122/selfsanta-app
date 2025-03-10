@@ -6,7 +6,6 @@ networks:
   back-net:
     driver: bridge
 
-
 services:
   nginx:
     image: nginx:alpine
@@ -23,9 +22,10 @@ services:
       - web
       - api
     volumes:
-      - ../nginx/nginx.conf:/etc/nginx/nginx.conf  # Montamos la plantilla en la ubicación correcta
-      - ../react-web/dist:/usr/share/nginx/html
-    # entrypoint: ["/bin/sh", "-c", "envsubst '${NGINX_SERVER_PORT} ${NGINX_SERVER_NAME}' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/nginx.conf && cat /etc/nginx/nginx.conf", "exec nginx -g 'daemon off;'"]
+      - ../nginx/nginx.conf:/etc/nginx/nginx.conf  # Montamos la plantilla de configuración
+      - react-build:/usr/share/nginx/html  # Volumen donde estarán los archivos estáticos generados
+    # Iniciamos Nginx normalmente
+    entrypoint: ["nginx", "-g", "daemon off;"]
 
   web:
     build:
@@ -36,9 +36,11 @@ services:
       - back-net
     depends_on:
       - api
+    volumes:
+      - react-build:/app/dist  # Usamos un volumen compartido para los archivos de React
 
   api:
-    build: 
+    build:
       context: ..
       dockerfile: ./docker/backend-Dockerfile
     networks:
@@ -46,8 +48,6 @@ services:
       - front-net
     depends_on:
       - mongo
-    # ports:
-      # - "8000:8000"  
     expose:
       - "8000"
 
@@ -66,4 +66,6 @@ services:
 
 volumes:
   mongo-data:
+    driver: local
+  react-build:  # Volumen para almacenar los archivos de React generados
     driver: local
