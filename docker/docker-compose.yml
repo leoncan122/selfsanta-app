@@ -11,9 +11,9 @@ services:
   nginx:
     image: nginx:alpine
     container_name: nginx
-    env_file:
-      - ../.env.local
-      - ../.env.production
+    environment:
+      - NGINX_SERVER_PORT=${NGINX_SERVER_PORT}
+      - NGINX_SERVER_NAME=${NGINX_SERVER_NAME}
     ports:
       - "80:80"
     networks:
@@ -25,7 +25,8 @@ services:
     volumes:
       - ../nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template  # Montamos la plantilla en la ubicación correcta
       - ../react-web/dist:/usr/share/nginx/html
-    entrypoint: ["/bin/sh", "-c", "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/nginx.conf && exec nginx -g 'daemon off;'"]
+    entrypoint: ["nginx", "-g", "daemon off;"]
+    # entrypoint: ["/bin/sh", "-c", "envsubst '${NGINX_SERVER_PORT} ${NGINX_SERVER_NAME}' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/nginx.conf && cat /etc/nginx/nginx.conf", "exec nginx -g 'daemon off;'"]
 
   web:
     build:
