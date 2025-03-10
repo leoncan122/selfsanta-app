@@ -10,11 +10,11 @@ class UserReq(BaseModel):
 
 router = APIRouter()
 
-@router.get("/users/{user_id}")
+@router.get("/{user_id}")
 async def get_user(user_id: str):
     return {"user_id": user_id}
 
-@router.post("/users/login")
+@router.post("/login")
 async def authenticate_user(user: UserReq):
     try:
         #logica para autenticar al usuario
@@ -23,7 +23,7 @@ async def authenticate_user(user: UserReq):
         logger.error(f"Error al autenticar al usuario: {e}")
         return JSONResponse(status_code=500, content={"message": "Internal server error"})
 
-@router.get("/users/me/{user_id}")
+@router.get("/me/{user_id}")
 async def get_me():
     try:
         #logica para obtner el usuario actual

@@ -36,7 +36,7 @@ async def log_middleware(request: str, call_next):
             logger.info("Middleware finished" + request.url.path)
             return response
         
-app.mount("/api/users", users_main.app)
+app.mount("/api", users_main.app)
 
 
 # if __name__ == "__main__":

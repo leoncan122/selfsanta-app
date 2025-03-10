@@ -6,11 +6,11 @@ from app.users_mgt.models.requests.gifts import GiftReq
 
 router = APIRouter()
 
-@router.get("/gifts/{gift_id}")
+@router.get("/{gift_id}")
 def get_gift(gift_id: str):
     return {"gift_id": gift_id}
 
-@router.post("/gifts")
+@router.post("/")
 async def add_gift(gift: GiftReq):
     try:
         # Lógica para agregar el regalo
@@ -19,7 +19,7 @@ async def add_gift(gift: GiftReq):
         logger.error(f"Error al agregar el regalo: {e}")
         return JSONResponse(status_code=500, content={"message": "Internal server error"})
     
-@router.put("/gifts/{gift_id}")
+@router.put("/{gift_id}")
 async def update_gift(gift_id: str, gift: GiftReq):
     try:
         #actualizar el regalo
