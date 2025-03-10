@@ -23,7 +23,7 @@ services:
       - web
       - api
     volumes:
-      - ../nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template  # Montamos la plantilla en la ubicación correcta
+      - ../nginx/nginx.conf:/etc/nginx/templates/nginx.conf  # Montamos la plantilla en la ubicación correcta
       - ../react-web/dist:/usr/share/nginx/html
     entrypoint: ["nginx", "-g", "daemon off;"]
     # entrypoint: ["/bin/sh", "-c", "envsubst '${NGINX_SERVER_PORT} ${NGINX_SERVER_NAME}' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/nginx.conf && cat /etc/nginx/nginx.conf", "exec nginx -g 'daemon off;'"]
