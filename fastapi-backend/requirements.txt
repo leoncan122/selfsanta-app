@@ -38,3 +38,4 @@ gunicorn==23.0.0
 watchfiles==1.0.0
 websockets==14.1
 win32_setctime==1.2.0
+celery[redis]==5.4.0

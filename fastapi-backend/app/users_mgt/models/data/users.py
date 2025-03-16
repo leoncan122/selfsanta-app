@@ -10,3 +10,10 @@ class User(BaseModel):
     created_at: datetime
     updated_at: datetime
     
+    
+class UserLogin(BaseModel):
+    user_id: str
+    username: str
+    password: str
+    email: str
+    
