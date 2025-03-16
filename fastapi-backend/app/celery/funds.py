@@ -1,7 +1,7 @@
 from celery import Celery
 import requests
 
-celery = Celery('funds', broker='redis://localhost:6379/0', backend='redis://localhost:6379/0')
+celery = Celery('funds', broker='redis://redis:6379/0', backend='redis://redis:6379/0')
 
 class CeleryConfig:
         task_create_missing_queues = True

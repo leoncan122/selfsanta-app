@@ -41,5 +41,5 @@ async def log_middleware(request: str, call_next):
 app.mount("/api", users_main.app)
 
 
-if __name__ == "__main__":
-    celery.worker_main("worker", "--loglevel=INFO")
+# if __name__ == "__main__":
+#     celery.worker_main("worker", "--loglevel=INFO")

@@ -1,0 +1,17 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+
+COPY ../fastapi-backend/requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ../fastapi-backend/ .
+
+# Crear un usuario no root
+RUN useradd -ms /bin/bash celeryuser
+
+# Cambiar el usuario a celeryuser
+USER celeryuser
+
+CMD ["celery", "-A", "app.worker", "worker", "--loglevel=INFO"]

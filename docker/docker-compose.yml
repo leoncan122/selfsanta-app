@@ -31,6 +31,7 @@ services:
     build:
       context: ..
       dockerfile: ./docker/web-Dockerfile
+    container_name: web
     networks:
       - front-net
       - back-net
@@ -43,13 +44,33 @@ services:
     build:
       context: ..
       dockerfile: ./docker/backend-Dockerfile
+    restart: always
+    container_name: api
+    environment:
+      - MONGO_URI=mongodb://example:examplepassword@mongo:27017/example
+      - REDIS_BROKER_URL=redis://redis:6379/0
+      - REDIS_RESULT_BACKEND=redis://redis:6379/0
     networks:
       - back-net
       - front-net
     depends_on:
+      - redis
       - mongo
+      - postgres
     expose:
       - "8000"
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+    #   interval: 30s
+    #   retries: 3
+  redis:
+    image: redis:latest
+    container_name: redis-db
+    restart: always
+    networks:
+      - back-net
+    expose:
+      - "6379"  # Solo accesible dentro de la red de Docker
 
   mongo:
     image: mongo:latest
@@ -63,6 +84,31 @@ services:
       - back-net
     expose:
       - "27017"  # Solo accesible dentro de la red de Docker
+  postgres:
+    image: postgres:15
+    restart: always
+    container_name: postgres-db
+    environment:
+      POSTGRES_PASSWORD: rootpassword
+    networks:
+       - back-net
+    expose:
+      - "3306"
+ 
+  worker:
+    build:
+      context: ..
+      dockerfile: ./docker/worker-Dockerfile
+    container_name: celery-worker
+    command: celery -A app.celery.funds worker --loglevel=info
+    networks:
+     - back-net
+    depends_on:
+      - redis
+      - api
+    environment:
+      - REDIS_BROKER_URL=redis://redis:6379/0
+      - REDIS_RESULT_BACKEND=redis://redis:6379/0
 
 volumes:
   mongo-data:
