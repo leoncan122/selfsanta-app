@@ -7,6 +7,8 @@ from app.controllers.system import router
 
 from app.users_mgt import users_main
 
+from app.celery.funds import celery
+
 
 app = FastAPI()
 from starlette.middleware.cors import CORSMiddleware
@@ -40,5 +42,4 @@ app.mount("/api", users_main.app)
 
 
 # if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run(app, host="0.0.0.0", port=8000)
+#     celery.worker_main("worker", "--loglevel=INFO")
