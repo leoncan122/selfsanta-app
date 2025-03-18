@@ -1,5 +1,7 @@
 from celery import Celery
 import requests
+from app.users_mgt.models.requests.funds import FundTransactionReq
+from app.users_mgt.models.data.funds import FundTransaction
 
 celery = Celery('funds', broker='redis://redis:6379/0', backend='redis://redis:6379/0')
 
@@ -18,11 +20,12 @@ class CeleryConfig:
 celery.config_from_object(CeleryConfig)
 
 @celery.task(name='api.funds.tasks.create_fund_celery',bind=True, autoretry_for=(Exception,), retry_kwargs={"max_retries": 5})
-def create_fund_celery(self, user_id: int, amount: float):
+def create_fund_celery(self, transaction: FundTransactionReq):
+    
     
     try:
         # Simulación de API de pago (puede ser Stripe, PayPal, etc.)
-        response = requests.post("https://api.mockpayments.com/pay", data={"user_id": user_id, "amount": amount})
+        response = requests.post("https://api.mockpayments.com/pay", data=transaction)
         response.raise_for_status()
 
         # Guardar estado en la base de datos
