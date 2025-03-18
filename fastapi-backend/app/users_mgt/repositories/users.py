@@ -22,7 +22,7 @@ mock = [
 
 
 
-class Users_repo():
+class UsersRepository():
     def __init__(self):
         self.data = mock
     

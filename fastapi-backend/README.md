@@ -22,10 +22,9 @@ This application uses the FastAPI framework driven by Python 3.8. For persistanc
 
 
 Update: 14/03
-We decided to ensure that the funds application must have a 5/5 availability, as been proposed that the funds service must have 5/5 of availability, and consistency. 
-Conversely this will also ensure the transactions are as fast as possible reducing the latency of the requests.
+We decided to ensure that the funds domain must have a 5/5 availability. 
 We must implement a redis database to queue the transactions for the celery worker that send the payments, manage errors and retries.
-
+Conversely this will also ensure the transactions are as fast as possible reducing the latency of the requests.
 
 The requirements.txt will guide you with the dependencies. Just install by running:
 

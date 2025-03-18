@@ -1,11 +1,16 @@
 
 from app.celery.funds import create_fund_celery
 from fastapi import APIRouter, Depends, HTTPException
+from app.users_mgt.models.requests.funds import FundTransactionReq
+from app.users_mgt.models.data.funds import FundTransaction
 
 router = APIRouter()
 
-@router.get("/funds")
-async def insert_fund():
+@router.post("/funds")
+async def insert_fund(transaction: FundTransactionReq):
+    
+    transaction_obj = FundTransaction(**transaction)
+    
     try:
         create_fund_celery.delay()
         
@@ -13,3 +18,5 @@ async def insert_fund():
     except HTTPException as e:
     
         return {"message": f"Error: ${e}"}
+    
+    
