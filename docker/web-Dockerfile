@@ -16,14 +16,17 @@ COPY ../react-web/ ./
 # Construimos la aplicación de React (se generarán archivos estáticos)
 RUN npm run build
 
+# 2. Mantener el contenedor en ejecución (evita exit 0)
+CMD ["sleep", "infinity"]
+
 # Usamos una imagen ligera de Nginx para servir la app
-FROM nginx:alpine
+# FROM nginx:alpine
 
 # Copiamos los archivos construidos a la carpeta de Nginx que sirve contenido estático
-COPY --from=build /app/dist /usr/share/nginx/html
+# COPY --from=build /app/dist /usr/share/nginx/html
 
 # Exponemos el puerto 80 para servir la app
-EXPOSE 80
+# EXPOSE 80
 
 # Iniciamos Nginx para servir los archivos estáticos
-CMD ["nginx", "-g", "daemon off;"]
+# CMD ["nginx", "-g", "daemon off;"]
