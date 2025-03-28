@@ -20,3 +20,5 @@ docker/db_data/
 .vscode/
 .idea/
 .DS_Store
+
+nginx.*.conf
