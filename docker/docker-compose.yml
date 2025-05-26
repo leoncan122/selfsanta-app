@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 networks:
   front-net:
@@ -10,23 +10,38 @@ services:
   nginx:
     image: nginx:alpine
     container_name: nginx
+    restart: always
     environment:
       - NGINX_SERVER_PORT=${NGINX_SERVER_PORT}
       - NGINX_SERVER_NAME=${NGINX_SERVER_NAME}
     ports:
       - "80:80"
+      - "443:443"  # Habilitamos HTTPS
     networks:
       - front-net
       - back-net
     depends_on:
       - web
       - api
+      #- certbot  # Asegurar que Certbot corra antes
     volumes:
-      - ../nginx/nginx.conf:/etc/nginx/nginx.conf  # Montamos la plantilla de configuración
-      - react-build:/usr/share/nginx/html  # Volumen donde estarán los archivos estáticos generados
-    # Iniciamos Nginx normalmente
-    entrypoint: ["nginx", "-g", "daemon off;"]
-
+      - ../nginx/nginx.prod.conf:/etc/nginx/nginx.conf  # Configuración de Nginx
+      - react-build:/usr/share/nginx/html  # Archivos estáticos de React
+      - certbot-www:/var/www/certbot  # Volumen para Certbot
+      - certbot-conf:/etc/letsencrypt  # Certificados SSL
+      #entrypoint: ["nginx", "-g", "daemon off;"]
+    entrypoint: >
+      /bin/sh -c "
+      nginx -g 'daemon off;'"
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-www:/var/www/certbot  # Para validación
+      - certbot-conf:/etc/letsencrypt  # Certificados SSL
+    entrypoint: >
+      /bin/sh -c "
+      certbot certonly --webroot -w /var/www/certbot --agree-tos --non-interactive --email leon.can122@gmail.com                               -d apps.leonc.es -d www.apps.leonc.es"
   web:
     build:
       context: ..
@@ -38,7 +53,7 @@ services:
     depends_on:
       - api
     volumes:
-      - react-build:/app/dist  # Usamos un volumen compartido para los archivos de React
+      - react-build:/app/dist
 
   api:
     build:
@@ -59,10 +74,7 @@ services:
       - postgres
     expose:
       - "8000"
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-    #   interval: 30s
-    #   retries: 3
+
   redis:
     image: redis:latest
     container_name: redis-db
@@ -70,7 +82,7 @@ services:
     networks:
       - back-net
     expose:
-      - "6379"  # Solo accesible dentro de la red de Docker
+      - "6379"
 
   mongo:
     image: mongo:latest
@@ -83,7 +95,8 @@ services:
     networks:
       - back-net
     expose:
-      - "27017"  # Solo accesible dentro de la red de Docker
+      - "27017"
+
   postgres:
     image: postgres:15
     restart: always
@@ -91,10 +104,10 @@ services:
     environment:
       POSTGRES_PASSWORD: rootpassword
     networks:
-       - back-net
+      - back-net
     expose:
-      - "3306"
- 
+      - "5432"
+
   worker:
     build:
       context: ..
@@ -113,5 +126,9 @@ services:
 volumes:
   mongo-data:
     driver: local
-  react-build:  # Volumen para almacenar los archivos de React generados
+  react-build:
+    driver: local
+  certbot-www:
+    driver: local
+  certbot-conf:
     driver: local
