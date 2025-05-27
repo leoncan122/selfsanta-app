@@ -8,3 +8,6 @@ Everybody like surprises, they give us a lot of emotions, but what happens is th
 
 This systems would let you create a list of gifts, your family, friends, or you can pooling funds to your registry.
 
+
+## Start app
+sudo docker compose up -d

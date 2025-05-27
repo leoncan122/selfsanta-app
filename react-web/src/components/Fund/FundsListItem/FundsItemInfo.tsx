@@ -9,7 +9,7 @@ export interface FundsItemInfoProps {
 
 const FundsItemInfo = ({ children }: FundsItemInfoProps) => {
     return (
-        <div className="funds-Info">
+        <div className="funds-info">
             {children}
         </div>
     )
