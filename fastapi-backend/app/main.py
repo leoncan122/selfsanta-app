@@ -6,7 +6,7 @@ from app.gateway.api_router import call_api_gateway
 from app.controllers.system import router
 
 from app.users_mgt import users_main
-
+from app.publisher import publisher_main
 from app.celery.funds import celery
 
 
@@ -38,7 +38,8 @@ async def log_middleware(request: str, call_next):
             logger.info("Middleware finished" + request.url.path)
             return response
         
-app.mount("/api", users_main.app)
+app.mount("/api/users", users_main.app)
+app.mount("/ws/messages", publisher_main.app)
 
 
 # if __name__ == "__main__":
