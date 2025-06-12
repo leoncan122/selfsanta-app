@@ -25,7 +25,7 @@ export const getGiftList = (): UseApi<GiftResponse> => {
     const controller = loadAbortController();
 
     return {
-        call: async () => await axios.get('/api/gifts', { signal: controller.signal }),
+        call: async () => await axios.get('/api/users/gifts', { signal: controller.signal }),
         controller        
     }
 }
@@ -34,7 +34,7 @@ export const addLink = (params?: AddLinkParams): UseApi<GiftResponse> => {
     const controller = loadAbortController();
     
     return {
-        call: async () => await axios.post('/api/links/check', params, { signal: controller.signal }),
+        call: async () => await axios.post('/api/users/links/check', params, { signal: controller.signal }),
         controller
     };
 }
@@ -42,7 +42,7 @@ export const addLink = (params?: AddLinkParams): UseApi<GiftResponse> => {
 export const addGift = (params?: AddGiftParams | undefined): UseApi<GiftResponse> => {
     const controller = loadAbortController();
     return {
-        call: async () => await axios.post('/api/gifts', params, { signal: controller.signal }),
+        call: async () => await axios.post('/api/users/gifts', params, { signal: controller.signal }),
         controller
     };
 }

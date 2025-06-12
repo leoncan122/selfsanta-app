@@ -1,7 +1,7 @@
 
 import './Alerts.css';
 import { useEffect, useRef, useState } from 'react';
-import { MessagingObservable } from '../../../services/messaging.service';
+import { MessagingObservable } from '../../../services/notifications.service';
 import { MessageInterface } from '../../../models/notification.model';
 // import { takeUntil, fromEvent, interval, takeLast, delay } from "rxjs";
 import { delay } from 'rxjs';

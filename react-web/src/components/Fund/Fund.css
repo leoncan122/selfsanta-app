@@ -23,12 +23,15 @@
 } */
 
 
+  .funds-container {
+    display: grid;
+    grid-template-areas: "price price cta"
+                          "price price cta"
+                          "list list list";
+    grid-template-rows: repeat(3, minmax(0.4fr, 1fr));
+    grid-template-columns: repeat(3, minmax(250px, 1fr));
+  }
 
-  /* .container h1 {
-    font-size: 2.5rem;
-    color: #0f0e46;
-    margin-bottom: 1rem;
-  } */
   .fund-greeting {
     color: var(--color-primary);
   }

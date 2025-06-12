@@ -10,7 +10,7 @@ const FundsListItem =  ({ key, children }: FundsListItemProps) => {
         <li key={key} className="funds-item">
             {children}
             
-      </li>
+        </li>
     )
 
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Header.css";
-import { MessagingObservable } from "../../../services/messaging.service";
+import { MessagingObservable } from "../../../services/notifications.service";
 import { NavItem } from "./NavItem/NavItem";
 import { MessageInterface } from "../../../models/notification.model";
 import { Alerts } from "../Alerts/Alerts";

@@ -28,33 +28,36 @@ export const Funds = () => {
 
   return (
     <PageViewWrapper>
-      <ProgresiveCounter start={23} end={324} />
-      <div className="add-funds-container">
-            <BlockColorPrimary>
-            <button className="add-funds-btn" onClick={handleAddFunds}>
-              Help this person<br/> get
-              his<br />  dream gift
-            </button>
-          </BlockColorPrimary>
-            
+      <div className="funds-container">
+        <ProgresiveCounter start={23} end={324} />
+        <div className="add-funds-container">
+              <BlockColorPrimary>
+              <button className="add-funds-btn" onClick={handleAddFunds}>
+                Help this person<br/> get
+                his<br />  dream gift
+              </button>
+            </BlockColorPrimary>
+              
+        </div>
+        <div className="funds-list-container">
+          <h2>Last supports </h2>
+          <ul className="funds-list">
+            {FUNDS_LIST.map(({id, name, amount, date, text}) => (
+                <FundsListItem key={id} >
+                      <FundsItemDetails>
+                          <p className="fund-name">{name}</p>
+                          <p className="fund-text">{text}</p>
+                    </FundsItemDetails>
+                    <FundsItemInfo>
+                      <p className="fund-amount">${amount}</p>
+                      <p className="fund-date">{date ? new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'short',hour: 'numeric'}) : '-'}</p>
+                    </FundsItemInfo>
+              </FundsListItem>
+          ))}
+          </ul>
+        </div>
       </div>
-      <div className="funds-list-container">
-        <h2>Last supports </h2>
-        <ul className="funds-list">
-          {FUNDS_LIST.map(({id, name, amount, date, text}) => (
-               <FundsListItem key={id} >
-                    <FundsItemDetails>
-                        <p className="fund-name">{name}</p>
-                        <p className="fund-text">{text}</p>
-                  </FundsItemDetails>
-                  <FundsItemInfo>
-                    <p className="fund-amount">${amount}</p>
-                    <p className="fund-date">{date ? new Date(date).toLocaleDateString('en-US', {day: 'numeric', month: 'short',hour: 'numeric'}) : '-'}</p>
-                  </FundsItemInfo>
-            </FundsListItem>
-        ))}
-        </ul>
-      </div>
+      
     </PageViewWrapper>
   );
 };

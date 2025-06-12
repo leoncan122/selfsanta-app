@@ -6,6 +6,7 @@ export interface Message {
     body: string;
     timestamp: Date;
     thread_id: string;
+    isRead?: boolean; // Optional property to indicate if the message has been read
 }
 
 export const MESSAGES_LIST: Message[] = [
@@ -15,7 +16,8 @@ export const MESSAGES_LIST: Message[] = [
         to: "jane@example.com",
         body: "Don't forget about our meeting tomorrow at 10 AM.",
         timestamp: new Date(),
-        thread_id: "thread1"
+        thread_id: "thread1",
+        isRead: false, // Example of a message that has not been read
     },
     {
         id: "msg3213-jane-s-john",
@@ -23,7 +25,8 @@ export const MESSAGES_LIST: Message[] = [
         to: "john@example.com",
         body: "Got it, see you then!",
         timestamp: new Date(),
-        thread_id: "thread1"
+        thread_id: "thread1",
+        isRead: false, // Example of a message that has not been read
     },
     {
         id: "msg3213-alice-s-bob",
@@ -31,7 +34,8 @@ export const MESSAGES_LIST: Message[] = [
         to: "bob@example.com",
         body: "The project is on track for completion next week.",
         timestamp: new Date(),
-        thread_id: "thread2"
+        thread_id: "thread2",
+        isRead: false, // Example of a message that has not been read
     },
     {
         id: "msg3213-bob-s-alice",
@@ -39,7 +43,8 @@ export const MESSAGES_LIST: Message[] = [
         to: "alice@example.com",
         body: "Great news, thanks for the update!",
         timestamp: new Date(),
-        thread_id: "thread2"
+        thread_id: "thread2",
+        isRead: false, // Example of a message that has not been read
     },
     {
         id: "msg3213-charlie-s-dave",
@@ -47,7 +52,8 @@ export const MESSAGES_LIST: Message[] = [
         to: "dave@example.com",
         body: "Are you free for lunch tomorrow?",
         timestamp: new Date(),
-        thread_id: "thread3"
+        thread_id: "thread3",
+        isRead: false, // Example of a message that has not been read
     },
     {
         id: "msg3213-dave-s-charlie",
@@ -55,7 +61,8 @@ export const MESSAGES_LIST: Message[] = [
         to: "charlie@example.com",
         body: "Yes, let's meet at 12 PM.",
         timestamp: new Date(),
-        thread_id: "thread3"
+        thread_id: "thread3",
+        isRead: false, // Example of a message that has not been read
     },
     {
         id: "msg3213-erin-s-frank",
@@ -63,7 +70,8 @@ export const MESSAGES_LIST: Message[] = [
         to: "frank@example.com",
         body: "Can you review my latest code changes?",
         timestamp: new Date(),
-        thread_id: "thread4"
+        thread_id: "thread4",
+        isRead: false, // Example of a message that has not been read
     },
     {
         id: "msg3213-frank-s-erin",
@@ -71,7 +79,8 @@ export const MESSAGES_LIST: Message[] = [
         to: "erin@example.com",
         body: "Sure, I'll take a look this afternoon.",
         timestamp: new Date(),
-        thread_id: "thread4"
+        thread_id: "thread4",
+        isRead: false, // Example of a message that has not been read
     },
     {
         id: "msg3213-grace-s-henry",
@@ -79,7 +88,8 @@ export const MESSAGES_LIST: Message[] = [
         to: "henry@example.com",
         body: "I'd like to request vacation time from Dec 20 to Jan 2.",
         timestamp: new Date(),
-        thread_id: "thread5"
+        thread_id: "thread5",
+        isRead: false, // Example of a message that has not been read
     },
     {
         id: "msg3213-henry-s-grace",
@@ -87,6 +97,48 @@ export const MESSAGES_LIST: Message[] = [
         to: "grace@example.com",
         body: "Your vacation request has been approved.",
         timestamp: new Date(),
-        thread_id: "thread5"
+        thread_id: "thread5",
+        isRead: false, // Example of a message that has not been read
+    },
+];
+
+export interface Thread {
+    id: string;
+    lastMessage: string;
+    from?: string; // Optional property to indicate the last sender
+    timestamp: Date;
+    // Optionally, you can add more properties like participants, unreadCount, etc.
+}
+
+export const THREADS_LIST: Thread[] = [
+    {
+        id: "thread1",
+        lastMessage: "Got it, see you then!",
+        from: "user2",
+        timestamp: new Date(),
+    },
+    {
+        id: "thread2",
+        lastMessage: "Great news, thanks for the update!",
+        from: "user2",
+        timestamp: new Date(),
+    },
+    {
+        id: "thread3",
+        lastMessage: "Yes, let's meet at 12 PM.",
+        from: "user2",
+        timestamp: new Date(),
+    },
+    {
+        id: "thread4",
+        lastMessage: "Sure, I'll take a look this afternoon.",
+        from: "user2",
+        timestamp: new Date(),
+    },
+    {
+        id: "thread5",
+        lastMessage: "Your vacation request has been approved.",
+        from: "user2",
+        timestamp: new Date(),
     },
 ];

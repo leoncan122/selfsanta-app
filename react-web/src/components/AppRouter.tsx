@@ -60,7 +60,15 @@ export const AppRouter = () => {
                 }
               />
                <Route
-                path={"/Messages"}
+                path={"/messages"}
+                element={
+                  <Layout>
+                    <MessagingPanel />
+                  </Layout>
+                }
+              />
+               <Route
+                path={"/messages/:threadId"}
                 element={
                   <Layout>
                     <MessagingPanel />

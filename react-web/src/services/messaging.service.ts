@@ -1,45 +1,54 @@
-import { BehaviorSubject,  Observable, range} from "rxjs";
-import { MessageInterface } from "../models/notification.model";
-import { messageMocks, notificationMocks } from "../mocks/notifications.mock";
+import { Message } from "../mocks/messages";
 
-export interface Publisher {
-    subscribe: (callback: (message: MessageInterface) => void) => () => void;
-    notify: (message: MessageInterface) => void;
-    onMessageReceived: () => Observable<MessageInterface>;
+
+class MessagingService {
+  private static instance: MessagingService;
+  socket: WebSocket | null = null;
+  private listeners: Array<(message: Message) => void> = [];
+
+  constructor() {}
+
+  public static getInstance(): MessagingService {
+    if (!MessagingService.instance) {
+      MessagingService.instance = new MessagingService();
+    }
+    return MessagingService.instance;
+  }
+
+  public connect(url: string): void {
+    if (this.socket) {
+      this.socket.close();
+    }
+    this.socket = new WebSocket(url);
+  }
+
+  public sendMessage(message: Message): void {
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+      this.socket.send(JSON.stringify(message));
+    } else {
+      console.error("WebSocket is not open.");
+    }
+  }
+
+  public onMessage(callback: (message: Message) => void): void {
+    this.listeners.push(callback);
+    if (this.socket) {
+      this.socket.onmessage = (event) => {
+        try {
+          const msg = JSON.parse(JSON.parse(event.data));
+          // console.log("Received message:",  msg);
+
+          this.listeners.forEach(callback => callback(msg));
+        } catch (e) {
+          console.error("Error parsing message", e);
+        }
+      };
+    }
+  }
+};
+
+
+export const messagingService = MessagingService.getInstance();
+export const connectToMessagingService = (url: string): void => {
+  messagingService.connect(url);
 }
-
-class MessagingPublisher implements Publisher {
-    // public static: Observable<MessageInterface> = from([...notificationMocks, ...messageMocks])
-    private messages$: BehaviorSubject<MessageInterface> 
-    
-    constructor (initialMessages: MessageInterface[]) {
-        this.messages$ = new BehaviorSubject<MessageInterface>(initialMessages[0])
-    }
-
-    public subscribe (callback: (message: MessageInterface) => void): () => void {
-        const subscription = this.messages$.subscribe(callback)
-        return () => subscription.unsubscribe()
-    }
-
-    public notify (message: MessageInterface): void {
-        this.messages$.next(message)
-    }
-    
-    public notifyAll(messages: MessageInterface[]) {
-        messages.forEach((message) => this.notify(message)); // Llama a `notify` para cada mensaje
-    }
-
-    public onMessageReceived (): Observable<MessageInterface> {
-        return this.messages$.asObservable()
-    }
-
-    public onFundReceived (number?: number, count?: number) {
-        return range(number ||0, count)
-    }
-
-
-}
-
-const initialMessages = [...notificationMocks, ...messageMocks]
-
-export const MessagingObservable = new MessagingPublisher(initialMessages)
