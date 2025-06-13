@@ -7,6 +7,7 @@ import { Alerts } from "../Alerts/Alerts";
 import { delay } from "rxjs";
 import ButtonNav from "../Buttons/ButtonNav/ButtonNav";
 import BlockColorPrimary from "../Buttons/BlockColorPrimary/BlockColorPrimary";
+import { useNavigate} from "react-router-dom";
 
 const navItems = [
   { to: "/me", icon: "📋", name: "home" },
@@ -16,13 +17,14 @@ const navItems = [
 ];
 
 export const Header = () => {
-  const [activeNav, setActiveNav] = useState<string>("home");
+ 
+  const navigate = useNavigate();
   const [totalNumeberOfNotifications, setTotalNumberOfNotifications] = useState<number>(0);
 
   const handleNavClick = (navItem: string) => {
-    setActiveNav(navItem);
+    navigate(navItems.find(item => item.name === navItem)?.to || "/");
   };
-
+  
   // const source = interval(5000);
   useEffect(() => {
     const unsubscribe = MessagingObservable.onMessageReceived()
@@ -53,7 +55,6 @@ export const Header = () => {
                     label={item.name}
                     icon={item.icon}
                     name={item.name}
-                    activeNav={activeNav}
                     handleNavClick={handleNavClick}
                     totalNumeberOfNotifications={totalNumeberOfNotifications}
                   />
