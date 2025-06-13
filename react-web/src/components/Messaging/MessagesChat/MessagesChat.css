@@ -3,9 +3,10 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-  background: linear-gradient(135deg, #f6f7fa 0%, #e9ecf3 100%);
+  background: linear-gradient(180deg, #9aaadade 0%, #e9ecf3db 100%);
   padding: 0;
   overflow: hidden;
+  /* backdrop-filter: blur(10px); */
 }
 
 .messages-list {
@@ -63,4 +64,31 @@
   font-size: 0.78em;
   color: #64748b;
   opacity: 0.6;
+}
+
+.message-input {
+  display: flex;
+  color: #22223b;
+  font-weight: 500;
+  align-items: center;
+  padding: 1rem;
+  background: #d9d9d9e8;
+  border-top: 1px solid #0c3b2b;
+  margin-top: auto;
+}
+
+.message-input-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin-top: auto;
+}
+
+.send-message-button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  /* transition: background-color 0.2s ease-in-out; */
 }

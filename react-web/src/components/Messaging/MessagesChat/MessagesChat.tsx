@@ -81,8 +81,9 @@ export const MessagesChat = ({ threadId }: MessagesChatProps) => {
                     </div>
                 ))}
             </Suspense>
-            <input
-                type="text"
+            <div className="message-input-container">
+                <textarea
+                name="message-input"
                 placeholder="Type your message here..."
                 className="message-input"
                 onChange={(e) => newMessageRef.current = e.target.value}
@@ -90,6 +91,8 @@ export const MessagesChat = ({ threadId }: MessagesChatProps) => {
                 <button onClick={handleSendMessage} className="send-message-button">
                     Send 
                 </button>
+            </div>
+            
         </div>
     );
 }
