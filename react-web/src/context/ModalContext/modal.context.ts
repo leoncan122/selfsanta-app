@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import { useContext } from "react";
 
 
@@ -15,8 +15,14 @@ export const initialState: ModalContext = {
 
 export const ModalContext = createContext(initialState); 
 
-export const useModalContext = () => {
+export const useModalContext = (isOpen?: boolean ) => {
     const context = useContext<ModalContext>(ModalContext);
+
+    useEffect(() => {
+        if (isOpen !== undefined) {
+            context.setIsModalOpen(isOpen);
+        }
+    }, [isOpen]);
 
     if (context === undefined) {
         throw new Error('useModalContext must be used within a ModalProvider');

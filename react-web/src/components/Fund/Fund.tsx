@@ -11,7 +11,7 @@ import FundsListItem from "./FundsListItem/FundsListItem";
 import FundsItemDetails from "./FundsListItem/FundsItemDetails";
 import FundsItemInfo from "./FundsListItem/FundsItemInfo";
 export const Funds = () => {
-  const { isModalOpen, setIsModalOpen } = useModalContext();
+ const { isModalOpen, setIsModalOpen } = useModalContext(); 
 
   const handleAddFunds = () => {
     setIsModalOpen(!isModalOpen);

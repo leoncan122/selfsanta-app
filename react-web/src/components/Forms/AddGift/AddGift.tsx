@@ -7,8 +7,11 @@ import { useApi } from "../../../hooks/useApi";
 import './AddGift.css';
 import { addGift, AddGiftParams, GiftResponse } from "../../../services/gifts.service";
 import ButtonPrimary from "../../Buttons/ButtonPrimary/ButtonPrimary";
-// import { AddLink } from "../AddLink";
+import { Link } from "react-router-dom";
+import { Modal } from "../../Layout/Modal/Modal";
+import { useModalContext } from "../../../context/ModalContext/modal.context";
 export const AddGift = () => {
+  const { isModalOpen, setIsModalOpen } = useModalContext(true);
     const { control, handleSubmit, formState: { errors } } = useForm<AddGiftFormValues>({
         resolver: zodResolver(ADD_GIFT_SCHEMA),
         mode: 'onBlur',
@@ -21,13 +24,20 @@ export const AddGift = () => {
       };
    
 
-    if (data) {
+    if (isModalOpen) {
         return (
-          <div>
+          <Modal>
+            <div className="addgift-success">
             <h2>Gift added successfully </h2>
-            <p className="">{data.title}</p>
-            
+            {/* <p className="">{data.title}</p> */}
+            <ButtonPrimary >
+              <Link to="/me" className="no-link-style">
+              Go to my list
+              </Link>
+              </ButtonPrimary>
           </div>
+          </Modal>
+          
         );
       }
 
