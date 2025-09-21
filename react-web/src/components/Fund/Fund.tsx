@@ -42,8 +42,8 @@ export const Funds = () => {
         <div className="funds-list-container">
           <h2>Last supports </h2>
           <ul className="funds-list">
-            {FUNDS_LIST.map(({id, name, amount, date, text}) => (
-                <FundsListItem key={id} >
+            {FUNDS_LIST.map(({name, amount, date, text}, index) => (
+                <FundsListItem key={index} >
                       <FundsItemDetails>
                           <p className="fund-name">{name}</p>
                           <p className="fund-text">{text}</p>
