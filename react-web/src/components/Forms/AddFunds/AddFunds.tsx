@@ -7,8 +7,9 @@ import { Button } from "../../Layout/Buttons/Button";
 import { MessagingObservable } from "../../../services/notifications.service";
 import { BaseSyntheticEvent } from "react";
 import './AddFunds.css';
-
+import { useModalContext } from "../../../context/ModalContext/modal.context";
 export const AddFunds = () => {
+    const {setIsModalOpen } = useModalContext(true);
     const { control, handleSubmit, formState: { errors } } = useForm<AddFundsFormValues>({
         resolver: zodResolver(ADD_FUNDS_SCHEMA),
         mode: 'onBlur',
@@ -73,7 +74,7 @@ export const AddFunds = () => {
             
                 />
                 <div className="form-buttons">
-                    <Button type="reset" >Cancel</Button>
+                    <Button onClick={() => setIsModalOpen(false)} type="reset" >Cancel</Button>
                     <Button type="submit" >Send</Button>
                 </div>            
 
