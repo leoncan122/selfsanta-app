@@ -6,6 +6,7 @@ import { ADD_GIFT_SCHEMA } from "./form.model";
 import { useApi } from "../../../hooks/useApi";
 import './AddGift.css';
 import { addGift, AddGiftParams, GiftResponse } from "../../../services/gifts.service";
+import ButtonPrimary from "../../Buttons/ButtonPrimary/ButtonPrimary";
 // import { AddLink } from "../AddLink";
 export const AddGift = () => {
     const { control, handleSubmit, formState: { errors } } = useForm<AddGiftFormValues>({
@@ -18,14 +19,14 @@ export const AddGift = () => {
     const onSubmit: SubmitHandler<AddGiftFormValues> = (data: AddGiftFormValues) => {
         fetch(data);
       };
+   
 
     if (data) {
         return (
           <div>
-            <h1>{data.title}</h1>
-            <p>{data.description}</p>
-            <p>{data.price}</p>
-            <p>{data.link}</p>
+            <h2>Gift added successfully </h2>
+            <p className="">{data.title}</p>
+            
           </div>
         );
       }
@@ -34,10 +35,16 @@ export const AddGift = () => {
         return <div>Loading...</div>;
       }
     
-    if (error) {
-    return <div>Error: {error.message}</div>;
-    }
+  if (error) {
+        return (
+          <>
 
+          <p >Something went wrong, try again !</p>
+          <ButtonPrimary onClick={() => fetch()}>Try again</ButtonPrimary>
+          </>
+        );
+        
+      }
     return (
         <section className="addgift-page">
             <h1>

@@ -1,6 +1,7 @@
 # Node.js / React / Angular
 node_modules/
 dist/
+*/dist
 *.env
 .env*
 

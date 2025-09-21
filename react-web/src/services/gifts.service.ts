@@ -23,9 +23,10 @@ export interface GiftResponse {
 }
 export const getGiftList = (): UseApi<GiftResponse> => {
     const controller = loadAbortController();
-
+    console.log(import.meta.env.VITE_API_BASE_URL);
+    
     return {
-        call: async () => await axios.get('/api/users/gifts', { signal: controller.signal }),
+        call: async () => await axios.get(`${import.meta.env.VITE_API_BASE_URL}/users/`, { signal: controller.signal }),
         controller        
     }
 }
@@ -34,7 +35,7 @@ export const addLink = (params?: AddLinkParams): UseApi<GiftResponse> => {
     const controller = loadAbortController();
     
     return {
-        call: async () => await axios.post('/api/users/links/check', params, { signal: controller.signal }),
+        call: async () => await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/links/check`, params, { signal: controller.signal }),
         controller
     };
 }
@@ -42,7 +43,7 @@ export const addLink = (params?: AddLinkParams): UseApi<GiftResponse> => {
 export const addGift = (params?: AddGiftParams | undefined): UseApi<GiftResponse> => {
     const controller = loadAbortController();
     return {
-        call: async () => await axios.post('/api/users/gifts', params, { signal: controller.signal }),
+        call: async () => await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/gifts`, params, { signal: controller.signal }),
         controller
     };
 }
